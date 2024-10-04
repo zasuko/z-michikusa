@@ -194,20 +194,6 @@ def update_my_data(my_data):
     if lora_network_weights:
         my_data["network_weights"] = lora_network_weights
 
-### 改善点
-
-1. **関数の実装**:
-   - `SaveConfigFile`、`print_command_and_toml`、`run_cmd_advanced_training` などの関数を実装する必要があります。これらの関数の具体的な動作に応じて実装してください。
-
-2. **インポートエラーの解決**:
-   - `validate_model_path` や他の必要な関数が実装されているか確認してください。また、どの関数が必要でどのファイルからインポートされるべきかを再確認してください。
-
-3. **冗長な部分の整理**:
-   - コメントやロギングのメッセージを整理して、コードの可読性を高めます。
-
-### 改良されたコード例
-
-以下に改善されたコードの例を示します。
 
 ```python
 import os
