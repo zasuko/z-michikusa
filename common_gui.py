@@ -50,16 +50,20 @@ def check_if_model_exist(output_name: str, output_dir: str, save_model_as: str, 
         ckpt_folder = os.path.join(output_dir, output_name)
         if os.path.isdir(ckpt_folder):
             log.info(f"A model folder {ckpt_folder} already exists.")
-            response = input(f"A model with the same folder name exists. Overwrite? (y/n): ")
-            return response.lower() != 'y'
+            return not ynbox(f"A model with the same folder name exists. Overwrite?", "Overwrite")
     else:
         ckpt_file = os.path.join(output_dir, output_name + "." + save_model_as)
         if os.path.isfile(ckpt_file):
             log.info(f"A model file {ckpt_file} already exists.")
-            response = input(f"A model with the same file name exists. Overwrite? (y/n): ")
-            return response.lower() != 'y'
+            return not ynbox(f"A model with the same file name exists. Overwrite?", "Overwrite")
 
     return False
+
+def get_file_path(filename: str, directory: str) -> str:
+    """
+    Returns the full path to the file in the specified directory.
+    """
+    return os.path.join(directory, filename)
 
 def calculate_max_train_steps(total_steps: int, train_batch_size: int, gradient_accumulation_steps: int, epoch: int, reg_factor: int):
     return int(
