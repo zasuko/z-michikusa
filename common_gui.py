@@ -65,6 +65,16 @@ def get_file_path(filename: str, directory: str) -> str:
     """
     return os.path.join(directory, filename)
 
+def validate_file_path(filename: str, directory: str) -> str:
+    """
+    Validates if the file exists in the specified directory.
+    """
+    full_path = get_file_path(filename, directory)
+    if os.path.isfile(full_path):
+        return full_path
+    else:
+        raise FileNotFoundError(f"The file {filename} does not exist in {directory}.")
+
 def get_saveasfile_path(output_dir: str, output_name: str, save_model_as: str) -> str:
     """
     Returns the save path for the file.
