@@ -59,6 +59,12 @@ def check_if_model_exist(output_name: str, output_dir: str, save_model_as: str, 
 def get_file_path(filename: str, directory: str) -> str:
     return os.path.join(directory, filename)
 
+def validate_folder_path(folder: str) -> str:
+    if os.path.isdir(folder):
+        return folder
+    else:
+        raise FileNotFoundError(f"The folder {folder} does not exist.")
+
 def validate_file_path(filename: str, directory: str) -> str:
     full_path = get_file_path(filename, directory)
     if os.path.isfile(full_path):
