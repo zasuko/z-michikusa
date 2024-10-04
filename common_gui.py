@@ -7,11 +7,7 @@ import math
 import shutil
 import toml
 from easygui import ynbox
-from tkinter import Tk, filedialog  # Tkinterのインポート
 from typing import Optional
-
-# 環境変数を無視するためのリスト
-ENV_EXCLUSION = ["CI", "GITHUB_ACTIONS"]  # 必要に応じて追加
 
 # Set up logging
 def setup_logging():
@@ -54,12 +50,14 @@ def check_if_model_exist(output_name: str, output_dir: str, save_model_as: str, 
         ckpt_folder = os.path.join(output_dir, output_name)
         if os.path.isdir(ckpt_folder):
             log.info(f"A model folder {ckpt_folder} already exists.")
-            return not ynbox(f"A model with the same folder name exists. Overwrite?", "Overwrite")
+            response = input(f"A model with the same folder name exists. Overwrite? (y/n): ")
+            return response.lower() != 'y'
     else:
         ckpt_file = os.path.join(output_dir, output_name + "." + save_model_as)
         if os.path.isfile(ckpt_file):
             log.info(f"A model file {ckpt_file} already exists.")
-            return not ynbox(f"A model with the same file name exists. Overwrite?", "Overwrite")
+            response = input(f"A model with the same file name exists. Overwrite? (y/n): ")
+            return response.lower() != 'y'
 
     return False
 
@@ -188,32 +186,14 @@ def update_my_data(my_data):
 
     return my_data
 
-def get_saveasfile_path(
-    file_path: str = "",
-    defaultextension: str = ".json",
-    extension_name: str = "Config files",
-) -> str:
+# Add the missing function for color_aug_changed
+def color_aug_changed(color_aug):
     """
-    Opens a file dialog to select a file for saving, allowing the user to specify a file name and location.
-    If no file is selected, returns the initially provided file path or an empty string if not provided.
-    This function is conditioned to skip the dialog on macOS or if specific environment variables are present,
-    indicating a possible automated environment where a dialog cannot be displayed.
+    Handles the change in color augmentation checkbox.
+    Disables the 'cache latent' option if color augmentation is enabled.
     """
-    if not any(var in os.environ for var in ENV_EXCLUSION) and sys.platform != "darwin":
-        current_file_path = file_path  # Backup in case no file is selected
-        initial_dir, initial_file = get_dir_and_file(file_path)
-
-        # Initialize a hidden Tkinter window for the file dialog
-        root = Tk()
-        root.wm_attributes("-topmost", 1)  # Ensure the dialog is topmost
-        root.withdraw()  # Hide the root window to show only the dialog
-
-        save_file_path = filedialog.asksaveasfilename(
-            filetypes=(f"{extension_name} {defaultextension}", ("All files", "*")),
-            defaultextension=defaultextension,
-            initialdir=initial_dir,
-            initialfile=initial_file,
-        )
-        root.destroy()  # Cleanup by destroying the Tkinter root window
-
-        if not save_file_path:  # Fallback to the current path if no selection is
+    if color_aug:
+        log.info('Disabling "Cache latent" because "Color augmentation" has been selected...')
+        return gr.Checkbox(value=False, interactive=False)
+    else:
+        return gr.Checkbox(interactive=True)
