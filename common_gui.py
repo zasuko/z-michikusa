@@ -6,7 +6,7 @@ import json
 import math
 import shutil
 import toml
-import requests  # requestsライブラリをインポート
+import requests
 from easygui import ynbox
 from typing import Optional
 
@@ -82,6 +82,12 @@ def get_file_path(filename: str, directory: str) -> str:
     Returns the full path to the file in the specified directory.
     """
     return os.path.join(directory, filename)
+
+def get_saveasfile_path(filename: str, output_dir: str) -> str:
+    """
+    Returns the full path to save the specified filename in the output directory.
+    """
+    return os.path.join(output_dir, filename)
 
 def calculate_max_train_steps(total_steps: int, train_batch_size: int, gradient_accumulation_steps: int, epoch: int, reg_factor: int):
     return int(
