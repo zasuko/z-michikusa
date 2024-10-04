@@ -155,13 +155,10 @@ def color_aug_changed(color_aug):
 
 # Additional functionalities to implement
 def SaveConfigFile(config):
-    # Implement saving config to a file
-    pass
+    pass  # Implement saving config to a file
 
 def print_command_and_toml():
-    # Implement logic to print command and TOML configuration
-    pass
+    pass  # Implement logic to print command and TOML configuration
 
 def run_cmd_advanced_training():
-    # Implement logic for running advanced training commands
-    pass
+    pass  # Implement logic for running advanced training commands
