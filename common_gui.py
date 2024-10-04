@@ -192,7 +192,7 @@ def update_my_data(my_data):
 
     lora_network_weights = my_data.get("lora_network_weights")
     if lora_network_weights:
-        my_data["network_weights"] = lora_network_weights現在の `common_gui.py` のコードを確認し、いくつかの改善点を提案しました。以下に、いくつかの機能を実装する必要がある部分とともに、改良したコードを示します。
+        my_data["network_weights"] = lora_network_weights
 
 ### 改善点
 
