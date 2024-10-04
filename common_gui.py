@@ -192,17 +192,23 @@ def update_my_data(my_data):
 
 # Save configuration file (placeholder function)
 def SaveConfigFile(config):
-    # Implement the function logic here
+    """
+    Implement the function logic here
+    """
     pass
 
 # Print command and TOML (placeholder function)
 def print_command_and_toml():
-    # Implement the function logic here
+    """
+    Implement the function logic here
+    """
     pass
 
 # Run command for advanced training (placeholder function)
 def run_cmd_advanced_training():
-    # Implement the function logic here
+    """
+    Implement the function logic here
+    """
     pass
 
 # Handle color augmentation changes
