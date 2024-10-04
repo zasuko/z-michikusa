@@ -59,24 +59,11 @@ def check_if_model_exist(output_name: str, output_dir: str, save_model_as: str, 
 
     return False
 
-def get_saveasfile_path(filename: str, directory: str) -> str:
-    """
-    Returns the full path to the save-as file in the specified directory.
-    """
-    return os.path.join(directory, filename)
-
 def get_file_path(filename: str, directory: str) -> str:
     """
     Returns the full path to the file in the specified directory.
     """
     return os.path.join(directory, filename)
-
-def print_command_and_toml(command: str, toml_file: str) -> None:
-    """
-    Prints the command and TOML file path to the log.
-    """
-    log.info(f"Executing command: {command}")
-    log.info(f"TOML file: {toml_file}")
 
 def calculate_max_train_steps(total_steps: int, train_batch_size: int, gradient_accumulation_steps: int, epoch: int, reg_factor: int):
     return int(
@@ -203,7 +190,22 @@ def update_my_data(my_data):
 
     return my_data
 
-# Add the missing function for color_aug_changed
+# Save configuration file (placeholder function)
+def SaveConfigFile(config):
+    # Implement the function logic here
+    pass
+
+# Print command and TOML (placeholder function)
+def print_command_and_toml():
+    # Implement the function logic here
+    pass
+
+# Run command for advanced training (placeholder function)
+def run_cmd_advanced_training():
+    # Implement the function logic here
+    pass
+
+# Handle color augmentation changes
 def color_aug_changed(color_aug):
     """
     Handles the change in color augmentation checkbox.
@@ -214,11 +216,3 @@ def color_aug_changed(color_aug):
         return gr.Checkbox(value=False, interactive=False)
     else:
         return gr.Checkbox(interactive=True)
-
-# Add the run_cmd_advanced_training function
-def run_cmd_advanced_training(command: str) -> None:
-    """
-    Executes the provided command for advanced training.
-    """
-    log.info(f"Running command for advanced training: {command}")
-    # Implement the actual command execution logic here
