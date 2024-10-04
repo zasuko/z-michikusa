@@ -6,6 +6,7 @@ import json
 import math
 import shutil
 import toml
+import requests  # requestsライブラリをインポート
 from easygui import ynbox
 from typing import Optional
 
@@ -29,6 +30,23 @@ if os.name == "nt":
 
 # insert sd-scripts path into PYTHONPATH
 sys.path.insert(0, os.path.join(scriptdir, "sd-scripts"))
+
+# GitHubからcommon_gui.pyをダウンロードする関数
+def download_common_gui(url: str, save_path: str):
+    response = requests.get(url)
+    if response.status_code == 200:
+        with open(save_path, 'wb') as f:
+            f.write(response.content)
+        log.info("common_gui.py downloaded successfully.")
+    else:
+        log.error(f"Failed to download common_gui.py, status code: {response.status_code}")
+
+# common_gui.pyのパス
+common_gui_url = "https://raw.githubusercontent.com/zasuko/z-michikusa/main/common_gui.py"
+common_gui_path = os.path.join(scriptdir, "common_gui.py")
+
+# common_gui.pyをダウンロードして上書き
+download_common_gui(common_gui_url, common_gui_path)
 
 # Model presets for validation
 V2_BASE_MODELS = ["stabilityai/stable-diffusion-2-1-base", "stabilityai/stable-diffusion-2-base"]
