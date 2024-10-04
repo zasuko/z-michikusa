@@ -71,6 +71,13 @@ def get_file_path(filename: str, directory: str) -> str:
     """
     return os.path.join(directory, filename)
 
+def print_command_and_toml(command: str, toml_file: str) -> None:
+    """
+    Prints the command and TOML file path to the log.
+    """
+    log.info(f"Executing command: {command}")
+    log.info(f"TOML file: {toml_file}")
+
 def calculate_max_train_steps(total_steps: int, train_batch_size: int, gradient_accumulation_steps: int, epoch: int, reg_factor: int):
     return int(
         math.ceil(
