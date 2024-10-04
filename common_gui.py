@@ -163,6 +163,15 @@ def print_command_and_toml():
 def run_cmd_advanced_training():
     pass  # Implement logic for running advanced training commands
 
+# List files in a directory
+def list_files(directory: str) -> list:
+    """Returns a list of files in the specified directory."""
+    try:
+        return [f for f in os.listdir(directory) if os.path.isfile(os.path.join(directory, f))]
+    except Exception as e:
+        log.error(f"Error listing files in {directory}: {e}")
+        return []
+
 # Validate arguments setting function
 def validate_args_setting(args):
     pass  # Implement argument validation logic here
