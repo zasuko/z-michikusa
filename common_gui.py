@@ -163,6 +163,6 @@ def print_command_and_toml():
 def run_cmd_advanced_training():
     pass  # Implement logic for running advanced training commands
 
-# Placeholder function for validate_args_setting
+# Validate arguments setting function
 def validate_args_setting(args):
     pass  # Implement argument validation logic here
