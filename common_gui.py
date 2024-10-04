@@ -225,3 +225,13 @@ def color_aug_changed(color_aug):
         return gr.Checkbox(value=False, interactive=False)
     else:
         return gr.Checkbox(interactive=True)
+
+# Add the print_command_and_toml function
+def print_command_and_toml(command: str, toml_dict: dict) -> None:
+    """
+    Prints the command and the corresponding TOML configuration.
+    """
+    log.info(f"Command: {command}")
+    log.info("TOML Configuration:")
+    for key, value in toml_dict.items():
+        log.info(f"{key}: {value}")
