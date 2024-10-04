@@ -59,6 +59,12 @@ def check_if_model_exist(output_name: str, output_dir: str, save_model_as: str, 
 
     return False
 
+def get_saveasfile_path(filename: str, directory: str) -> str:
+    """
+    Returns the full path to the save-as file in the specified directory.
+    """
+    return os.path.join(directory, filename)
+
 def get_file_path(filename: str, directory: str) -> str:
     """
     Returns the full path to the file in the specified directory.
@@ -208,4 +214,4 @@ def run_cmd_advanced_training(command: str) -> None:
     Executes the provided command for advanced training.
     """
     log.info(f"Running command for advanced training: {command}")
-    # 実際のコマンド実行処理を書く
+    # Implement the actual command execution logic here
