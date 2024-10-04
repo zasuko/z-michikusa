@@ -139,4 +139,92 @@ def update_my_data(my_data):
             except ValueError:
                 my_data[key] = int(1)
 
-    for key in ["ma
+    for key in ["max_train_steps", "caption_dropout_every_n_epochs"]:
+        value = my_data.get(key)
+        if value is not None:
+            try:
+                my_data[key] = int(value)
+            except ValueError:
+                my_data[key] = int(0)
+
+    for key in ["max_token_length"]:
+        value = my_data.get(key)
+        if value is not None:
+            try:
+                my_data[key] = int(value)
+            except ValueError:
+                my_data[key] = int(75)
+
+    for key in ["noise_offset", "learning_rate", "text_encoder_lr", "unet_lr"]:
+        value = my_data.get(key)
+        if value is not None:
+            try:
+                my_data[key] = float(value)
+            except ValueError:
+                my_data[key] = float(0.0)
+
+    for key in ["lr_scheduler_power"]:
+        value = my_data.get(key)
+        if value is not None:
+            try:
+                my_data[key] = float(value)
+            except ValueError:
+                my_data[key] = float(1.0)
+
+    if my_data.get("LoRA_type", "Standard") == "LoCon":
+        my_data["LoRA_type"] = "LyCORIS/LoCon"
+
+    if "save_model_as" in my_data:
+        if (
+            my_data.get("LoRA_type") or my_data.get("num_vectors_per_token")
+        ) and my_data.get("save_model_as") not in ["safetensors", "ckpt"]:
+            my_data["save_model_as"] = "safetensors"
+
+    xformers_value = my_data.get("xformers", None)
+    if isinstance(xformers_value, bool):
+        my_data["xformers"] = "xformers" if xformers_value else "none"
+
+    if my_data.get("use_wandb") == "True":
+        my_data["log_with"] = "wandb"
+
+    my_data.pop("use_wandb", None)
+
+    lora_network_weights = my_data.get("lora_network_weights")
+    if lora_network_weights:
+        my_data["network_weights"] = lora_network_weights
+        my_data.pop("lora_network_weights", None)
+
+    return my_data
+
+# Save configuration file (placeholder function)
+def SaveConfigFile(config):
+    """
+    Implement the function logic here
+    """
+    pass
+
+# Print command and TOML (placeholder function)
+def print_command_and_toml():
+    """
+    Implement the function logic here
+    """
+    pass
+
+# Run command for advanced training (placeholder function)
+def run_cmd_advanced_training():
+    """
+    Implement the function logic here
+    """
+    pass
+
+# Handle color augmentation changes
+def color_aug_changed(color_aug):
+    """
+    Handles the change in color augmentation checkbox.
+    Disables the 'cache latent' option if color augmentation is enabled.
+    """
+    if color_aug:
+        log.info('Disabling "Cache latent" because "Color augmentation" has been selected...')
+        return gr.Checkbox(value=False, interactive=False)
+    else:
+        return gr.Checkbox(interactive=True)
