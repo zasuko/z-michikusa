@@ -153,16 +153,6 @@ def color_aug_changed(color_aug):
         return gr.Checkbox(value=False, interactive=False)
     return gr.Checkbox(interactive=True)
 
-# Additional functionalities to implement
-def SaveConfigFile(config):
-    pass  # Implement saving config to a file
-
-def print_command_and_toml():
-    pass  # Implement logic to print command and TOML configuration
-
-def run_cmd_advanced_training():
-    pass  # Implement logic for running advanced training commands
-
 # List files in a directory
 def list_files(directory: str) -> list:
     """Returns a list of files in the specified directory."""
