@@ -6,7 +6,6 @@ import json
 import math
 import shutil
 import toml
-import requests
 from easygui import ynbox
 from typing import Optional
 
@@ -30,23 +29,6 @@ if os.name == "nt":
 
 # insert sd-scripts path into PYTHONPATH
 sys.path.insert(0, os.path.join(scriptdir, "sd-scripts"))
-
-# GitHubからcommon_gui.pyをダウンロードする関数
-def download_common_gui(url: str, save_path: str):
-    response = requests.get(url)
-    if response.status_code == 200:
-        with open(save_path, 'wb') as f:
-            f.write(response.content)
-        log.info("common_gui.py downloaded successfully.")
-    else:
-        log.error(f"Failed to download common_gui.py, status code: {response.status_code}")
-
-# common_gui.pyのパス
-common_gui_url = "https://raw.githubusercontent.com/zasuko/z-michikusa/main/common_gui.py"
-common_gui_path = os.path.join(scriptdir, "common_gui.py")
-
-# common_gui.pyをダウンロードして上書き
-download_common_gui(common_gui_url, common_gui_path)
 
 # Model presets for validation
 V2_BASE_MODELS = ["stabilityai/stable-diffusion-2-1-base", "stabilityai/stable-diffusion-2-base"]
@@ -82,12 +64,6 @@ def get_file_path(filename: str, directory: str) -> str:
     Returns the full path to the file in the specified directory.
     """
     return os.path.join(directory, filename)
-
-def get_saveasfile_path(filename: str, output_dir: str) -> str:
-    """
-    Returns the full path to save the specified filename in the output directory.
-    """
-    return os.path.join(output_dir, filename)
 
 def calculate_max_train_steps(total_steps: int, train_batch_size: int, gradient_accumulation_steps: int, epoch: int, reg_factor: int):
     return int(
@@ -233,13 +209,3 @@ def run_cmd_advanced_training(command: str) -> None:
     """
     log.info(f"Running command for advanced training: {command}")
     # 実際のコマンド実行処理を書く
-
-# Add the print_command_and_toml function
-def print_command_and_toml(command: str, toml_dict: dict) -> None:
-    """
-    Prints the command and the corresponding TOML configuration.
-    """
-    log.info(f"Command: {command}")
-    log.info("TOML Configuration:")
-    for key, value in toml_dict.items():
-        log.info(f"{key}: {value}")
