@@ -39,9 +39,6 @@ SDXL_MODELS = ["stabilityai/stable-diffusion-xl-base-1.0"]
 ALL_PRESET_MODELS = V2_BASE_MODELS + V_PARAMETERIZATION_MODELS + V1_MODELS + SDXL_MODELS
 
 def check_if_model_exist(output_name: str, output_dir: str, save_model_as: str, headless: bool = False) -> bool:
-    """
-    Checks if a model with the same name already exists and prompts the user to overwrite it if it does.
-    """
     if headless:
         log.info("Headless mode, skipping verification if model already exists...")
         return False
@@ -60,15 +57,9 @@ def check_if_model_exist(output_name: str, output_dir: str, save_model_as: str, 
     return False
 
 def get_file_path(filename: str, directory: str) -> str:
-    """
-    Returns the full path to the file in the specified directory.
-    """
     return os.path.join(directory, filename)
 
 def validate_file_path(filename: str, directory: str) -> str:
-    """
-    Validates if the file exists in the specified directory.
-    """
     full_path = get_file_path(filename, directory)
     if os.path.isfile(full_path):
         return full_path
@@ -76,9 +67,6 @@ def validate_file_path(filename: str, directory: str) -> str:
         raise FileNotFoundError(f"The file {filename} does not exist in {directory}.")
 
 def get_saveasfile_path(output_dir: str, output_name: str, save_model_as: str) -> str:
-    """
-    Returns the save path for the file.
-    """
     return os.path.join(output_dir, f"{output_name}.{save_model_as}")
 
 def calculate_max_train_steps(total_steps: int, train_batch_size: int, gradient_accumulation_steps: int, epoch: int, reg_factor: int):
@@ -89,9 +77,6 @@ def calculate_max_train_steps(total_steps: int, train_batch_size: int, gradient_
     )
 
 def get_executable_path(executable_name: str = None) -> str:
-    """
-    Retrieve and sanitize the path to an executable in the system's PATH.
-    """
     if executable_name:
         executable_path = shutil.which(executable_name)
         if executable_path:
@@ -102,18 +87,12 @@ def get_executable_path(executable_name: str = None) -> str:
         return ""  # Return empty string if no executable name is provided
 
 def output_message(msg: str = "", title: str = "", headless: bool = False) -> None:
-    """
-    Outputs a message to the user, either in a message box or in the log.
-    """
     if headless:
         log.info(msg)
     else:
         ynbox(msg=msg, title=title)
 
 def update_my_data(my_data):
-    """
-    Processes and updates the data, converts strings to integers or floats where necessary.
-    """
     use_8bit_adam = my_data.get("use_8bit_adam", False)
     my_data.setdefault("optimizer", "AdamW8bit" if use_8bit_adam else "AdamW")
 
@@ -208,31 +187,18 @@ def update_my_data(my_data):
 
 # Save configuration file (placeholder function)
 def SaveConfigFile(config):
-    """
-    Implement the function logic here
-    """
     pass
 
 # Print command and TOML (placeholder function)
 def print_command_and_toml():
-    """
-    Implement the function logic here
-    """
     pass
 
 # Run command for advanced training (placeholder function)
 def run_cmd_advanced_training():
-    """
-    Implement the function logic here
-    """
     pass
 
 # Handle color augmentation changes
 def color_aug_changed(color_aug):
-    """
-    Handles the change in color augmentation checkbox.
-    Disables the 'cache latent' option if color augmentation is enabled.
-    """
     if color_aug:
         log.info('Disabling "Cache latent" because "Color augmentation" has been selected...')
         return gr.Checkbox(value=False, interactive=False)
