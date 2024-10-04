@@ -65,6 +65,12 @@ def get_file_path(filename: str, directory: str) -> str:
     """
     return os.path.join(directory, filename)
 
+def get_saveasfile_path(output_dir: str, output_name: str, save_model_as: str) -> str:
+    """
+    Returns the save path for the file.
+    """
+    return os.path.join(output_dir, f"{output_name}.{save_model_as}")
+
 def calculate_max_train_steps(total_steps: int, train_batch_size: int, gradient_accumulation_steps: int, epoch: int, reg_factor: int):
     return int(
         math.ceil(
