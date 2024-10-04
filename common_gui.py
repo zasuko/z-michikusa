@@ -7,7 +7,11 @@ import math
 import shutil
 import toml
 from easygui import ynbox
+from tkinter import Tk, filedialog  # Tkinterのインポート
 from typing import Optional
+
+# 環境変数を無視するためのリスト
+ENV_EXCLUSION = ["CI", "GITHUB_ACTIONS"]  # 必要に応じて追加
 
 # Set up logging
 def setup_logging():
@@ -184,56 +188,32 @@ def update_my_data(my_data):
 
     return my_data
 
-# Add the missing function for color_aug_changed
-def color_aug_changed(color_aug):
+def get_saveasfile_path(
+    file_path: str = "",
+    defaultextension: str = ".json",
+    extension_name: str = "Config files",
+) -> str:
     """
-    Handles the change in color augmentation checkbox.
-    Disables the 'cache latent' option if color augmentation is enabled.
-    """
-    if color_aug:
-        log.info('Disabling "Cache latent" because "Color augmentation" has been selected...')
-        return gr.Checkbox(value=False, interactive=False)
-    else:
-        return gr.Checkbox(interactive=True)
-
-# Add the missing function for get_file_path
-def get_file_path(file_path: str = "", default_extension: str = ".json", extension_name: str = "Config files") -> str:
-    """
-    Opens a file dialog to select a file, allowing the user to navigate and choose a file with a specific extension.
+    Opens a file dialog to select a file for saving, allowing the user to specify a file name and location.
     If no file is selected, returns the initially provided file path or an empty string if not provided.
+    This function is conditioned to skip the dialog on macOS or if specific environment variables are present,
+    indicating a possible automated environment where a dialog cannot be displayed.
     """
-    # Validate parameter types
-    if not isinstance(file_path, str):
-        raise TypeError("file_path must be a string")
-    if not isinstance(default_extension, str):
-        raise TypeError("default_extension must be a string")
-    if not isinstance(extension_name, str):
-        raise TypeError("extension_name must be a string")
-
-    # Environment and platform check to decide on showing the file dialog
     if not any(var in os.environ for var in ENV_EXCLUSION) and sys.platform != "darwin":
         current_file_path = file_path  # Backup in case no file is selected
-
-        initial_dir, initial_file = get_dir_and_file(file_path)  # Decompose file path for dialog setup
+        initial_dir, initial_file = get_dir_and_file(file_path)
 
         # Initialize a hidden Tkinter window for the file dialog
         root = Tk()
         root.wm_attributes("-topmost", 1)  # Ensure the dialog is topmost
         root.withdraw()  # Hide the root window to show only the dialog
 
-        # Open the file dialog and capture the selected file path
-        file_path = filedialog.askopenfilename(
-            filetypes=((extension_name, f"*{default_extension}"), ("All files", "*.*")),
-            defaultextension=default_extension,
-            initialfile=initial_file,
+        save_file_path = filedialog.asksaveasfilename(
+            filetypes=(f"{extension_name} {defaultextension}", ("All files", "*")),
+            defaultextension=defaultextension,
             initialdir=initial_dir,
+            initialfile=initial_file,
         )
-
         root.destroy()  # Cleanup by destroying the Tkinter root window
 
-        # Fallback to the initial path if no selection is made
-        if not file_path:
-            file_path = current_file_path
-
-    # Return the selected or fallback file path
-    return file_path
+        if not save_file_path:  # Fallback to the current path if no selection is
