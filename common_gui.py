@@ -226,6 +226,14 @@ def color_aug_changed(color_aug):
     else:
         return gr.Checkbox(interactive=True)
 
+# Add the run_cmd_advanced_training function
+def run_cmd_advanced_training(command: str) -> None:
+    """
+    Executes the provided command for advanced training.
+    """
+    log.info(f"Running command for advanced training: {command}")
+    # 実際のコマンド実行処理を書く
+
 # Add the print_command_and_toml function
 def print_command_and_toml(command: str, toml_dict: dict) -> None:
     """
