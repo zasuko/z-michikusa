@@ -38,9 +38,6 @@ SDXL_MODELS = ["stabilityai/stable-diffusion-xl-base-1.0"]
 ALL_PRESET_MODELS = V2_BASE_MODELS + V_PARAMETERIZATION_MODELS + V1_MODELS + SDXL_MODELS
 
 def check_if_model_exist(output_name: str, output_dir: str, save_model_as: str, headless: bool = False) -> bool:
-    """
-    Checks if a model with the same name already exists and automatically overwrites if it does.
-    """
     if headless:
         log.info("Headless mode, skipping verification if model already exists...")
         return False
@@ -49,12 +46,16 @@ def check_if_model_exist(output_name: str, output_dir: str, save_model_as: str, 
         ckpt_folder = os.path.join(output_dir, output_name)
         if os.path.isdir(ckpt_folder):
             log.info(f"A model folder {ckpt_folder} already exists.")
-            return True  # Automatically overwrite
+            # ここを修正
+            user_input = input(f"A model with the same folder name exists. Overwrite? (yes/no): ")
+            return user_input.lower() != 'yes'
     else:
         ckpt_file = os.path.join(output_dir, output_name + "." + save_model_as)
         if os.path.isfile(ckpt_file):
             log.info(f"A model file {ckpt_file} already exists.")
-            return True  # Automatically overwrite
+            # ここを修正
+            user_input = input(f"A model with the same file name exists. Overwrite? (yes/no): ")
+            return user_input.lower() != 'yes'
 
     return False
 
